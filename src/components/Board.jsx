@@ -1,5 +1,6 @@
     import "../styles/Board.css";
     import { useState, useEffect } from "react";
+    import {useNavigate} from "react-router";
     function Board() {
         const matrices = [
             {
@@ -26,13 +27,38 @@
                     ["", "", "", "", "",""],
                     ["x", "", "=", "=", "","x"],
                 ]
+            },
+            {
+                mats1: [
+                    ["sun", "moon", "sun", "", "", ""],
+                    ["", "sun", "", "", "", ""],
+                    ["moon", "moon", "sun", "", "", ""],
+                    ["", "", "", "sun", "", "moon"],
+                    ["", "", "", "moon", "", "moon"],
+                    ["", "", "", "moon", "sun", "sun"],
+                ],
+                mats2: [
+                    ["", "", "", "x", "="],
+                    ["", "", "", "", ""],
+                    ["", "", "", "", ""],
+                    ["=", "", "", "", "x"],
+                    ["", "", "", "", ""],
+                    ["x", "x", "", "", ""]
+                ],
+                mats3: [
+                    ["", "", "", "", "x",""],
+                    ["", "", "", "", "",""],
+                    ["", "", "", "", "",""],
+                    ["", "x", "", "", "",""],
+                    ["", "", "", "", "",""],
+                ]
             }
         ];
         
         
 
 console.log(matrices);
-
+       const navigate=useNavigate();
         const [matIndex, setMatIndex] = useState(0); 
         const [mat1, setMat1] = useState(() => matrices[matIndex].mats1.map(row => [...row]));
         const [selectedItem, setSelectedItem] = useState(null);
@@ -51,6 +77,15 @@ console.log(matrices);
             newMat1[rowIndex][colIndex] = selectedItem;
             setMat1([...newMat1]);
         };
+        const handleNextLevel = () => {
+            if (matIndex < matrices.length - 1) {
+                setMatIndex(prevIndex => prevIndex + 1);
+                setMat1(matrices[matIndex + 1].mats1.map(row => [...row]));
+                setErrorCells(new Set());
+                setIsCompleted(false);
+            }
+        };
+    
 
         const checkConstraints = (matrix) => {
             let invalidCells = new Set();
@@ -163,13 +198,67 @@ console.log(matrices);
 
         return (
             <>
+               <div className="MainBody">
+                <button className="switch" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+                    {theme === "light" ? (
+                        <img src="public\sun.png" alt="Switch to Dark Mode" />
+                    ) : (
+                        <img src="public\brightness.png" alt="Switch to Light Mode" />
+                    )}
+                    </button>
                 <div className="Board_body">
-                    
                 {isCompleted && (
                     <div className="success-message">
-                        🎉 Congratulations! You successfully completed the puzzle! 🎉
+                       <p> 🎉 Congratulations! You successfully completed the puzzle! 🎉</p>
+                       <div> <button onClick={()=>navigate("/")}>Home</button> <button onClick={handleNextLevel} disabled={matIndex === matrices.length - 1}>{(matIndex==matrices.length-1 ? "Game Completed" :"Next")}</button></div>
+                      
                     </div>
                 )}
+                    
+                    <div className="game">
+                        <div className="game-container">
+                        {mat1.map((row, rowIndex) => (
+                            <div key={rowIndex} className="row">
+                            {row.map((cell, colIndex) => {
+                                const isError = errorCells.has(`${rowIndex}-${colIndex}`);
+
+                                return (
+                                    <button
+                                        key={colIndex}
+                                        className={`cell ${isError ? "error" : ""}`}
+                                        onClick={() => handleCellClick(rowIndex, colIndex)}
+                                    >
+                                        <span>
+                                        {rowIndex < mats2.length && colIndex < mats2[0]?.length
+                                            ? mats2[rowIndex][colIndex] === "="
+                                            ? <Equal />
+                                            : mats2[rowIndex][colIndex] === "x"
+                                            ? <Cross />
+                                            : <Empty/>
+                                            : null }
+                                        </span>
+                                        <p className={isError ? "error" : ""} >
+                                        {rowIndex < mats1.length - 1 
+                                            ? mats3[rowIndex][colIndex] === "=" 
+                                            ? <Equal />  
+                                            : mats3[rowIndex][colIndex] === "x" 
+                                                ? <Cross /> 
+                                                : null 
+                                            : null}
+                                        </p>
+                                        <aside> {cell ? (cell === "moon" ? <Moon /> : <Sun />) : null }
+                                        </aside>
+                                    </button>
+                                );
+                                })}
+                                </div>
+                            ))}
+                            <div className="buttons">
+                                <button onClick={() => setSelectedItem("moon")}><Moon /></button>
+                                <button onClick={() => setSelectedItem("sun")}><Sun /></button>
+                            </div>
+                        </div>
+                    </div>
                     <div className="rules">
                         <div className="rule-head">
                             <div className="rule-topic">
@@ -196,62 +285,7 @@ console.log(matrices);
                             </div>)}
                         </div>
                     </div>
-                    <div className="game">
-                    <button className="switch" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-                    {theme === "light" ? (
-                        <img src="/sun.png" alt="Switch to Dark Mode" />
-                    ) : (
-                        <img src="/brightness.png" alt="Switch to Light Mode" />
-                    )}
-                    </button>
-
-                        <div className="game-container">
-                        {mat1.map((row, rowIndex) => (
-                            <div key={rowIndex} className="row">
-                            {row.map((cell, colIndex) => {
-                                const isError = errorCells.has(`${rowIndex}-${colIndex}`);
-
-                                return (
-                                    <button
-                                        key={colIndex}
-                                        className={`cell ${isError ? "error" : ""}`}
-                                        onClick={() => handleCellClick(rowIndex, colIndex)}
-                                    >
-                                        <span>
-                                        {rowIndex < mats2.length && colIndex < mats2[0]?.length
-                                            ? mats2[rowIndex][colIndex] === "="
-                                            ? <Equal />
-                                            : mats2[rowIndex][colIndex] === "x"
-                                            ? <Cross />
-                                            : <Empty/>
-                                            : null }
-                                        </span>
-                                        <p className={isError ? "error" : ""}>
-                                        {rowIndex < mats1.length - 1 
-                                            ? mats3[rowIndex][colIndex] === "=" 
-                                            ? <Equal />  
-                                            : mats3[rowIndex][colIndex] === "x" 
-                                                ? <Cross /> 
-                                                : null 
-                                            : null}
-                                        </p>
-                                        <aside> {cell ? (cell === "moon" ? <Moon /> : <Sun />) : null }
-                                        </aside>
-                                    </button>
-                                );
-                                })}
-                                </div>
-                            ))}
-                            <div className="buttons">
-                                <button onClick={() => setSelectedItem("moon")}><Moon /></button>
-                                <button onClick={() => setSelectedItem("sun")}><Sun /></button>
-                            </div>
-
-                            
-                        
-
-                        </div>
-                    </div>
+                 </div>
                 </div>
             </>
         );

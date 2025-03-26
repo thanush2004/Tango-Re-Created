@@ -4,7 +4,7 @@
     --border-light: black;
     --bg-dark: black;
     --text-dark: white;
-    --border-dark: white;
+    --border-dark: rgb(83, 81, 81);
 }
 
 [data-theme="light"] {
@@ -24,7 +24,24 @@
     margin: 0;
     padding: 0;
 }
-
+.MainBody{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+}
+.switch{
+    margin-left: 48vw;
+    margin-top: 20px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.switch img{
+    height: 6vh;
+    width: fit-content;
+}
 .uparrow{
     color: var(--text);
   
@@ -40,8 +57,7 @@
     justify-content: center; 
     height: 100vh;
     width: 100vw;
-    background-color: var(--bg);
-    color: var(--text);
+    
     overflow: hidden;
     position: relative;
 }
@@ -56,23 +72,9 @@
     height: 100%;
     position: relative;
 }
-.switch{
-    justify-content: right;
-    position:fixed;
-    right: 0;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    margin-top:2vh;
-    background-color: transparent;
-    margin-right: 0.5vw;
-}
-.switch img{
-    height: 5vh;
-    border-radius: 5px;
-   
 
-}
+
+
 .game-container {
     position: absolute;
     top: 50%;
@@ -149,6 +151,7 @@
 .cell p svg {
     transform: scale(1);
     margin-top: 510%;
+    transform: rotate(90deg);
 }
 
 .buttons {
@@ -165,7 +168,7 @@
     height: 60px;
     width: auto;
     padding: 5px 10px;
-    border:1px solid white;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     background-color: transparent;
     font-size: 16px;
@@ -230,7 +233,50 @@
     font-size: 1.2rem;
 }
 
+
+
+@media (min-width: 1200px) {
+    .rule-head {
+        width:80%;
+        font-size: 1.5rem;
+        padding: 3vh;
+    }
+
+    .rule-points {
+        font-size: 1.2rem;
+        line-height: 40px;
+    }
+    .game{
+        margin-top:-4% ;
+        transform: scale(0.8);
+    }
+}
+
+
+.error {
+    background-color: var(--error-bg);
+    opacity: 0.2;
+}
+
+@media (max-width: 1200px) {
+   
+    .rule-head {
+        width:80%;
+        font-size: 1.5rem;
+        padding: 3vh;
+    }
+
+    .rule-points {
+        font-size: 0.8rem;
+        line-height: 25px;
+    }
+    .game{
+        margin-top:-10% ;
+        transform: scale(0.7);
+    }
+}
 @media (max-width: 768px) {
+    
     .rule-head {
         font-size: 1rem;
         width: 100%;
@@ -250,46 +296,8 @@
         line-height: 1.9vh;
 
     }
-    .switch{
-        top: 0;
-        position: absolute;
-        transform: scale(0.7);
-    }
-    .game-container{
-        /* transform: scale(0.); */
-    }
+
 }
-@media (min-width:768px)
-{
-    .game{
-        transform: scale(0.75);
-    }
-    .switch{
-        position: relative;
-        right: 0;
-        transform: translate(1500%,-200%);
-    }
-}
-@media (min-width: 1200px) {
-    .rule-head {
-        width:80%;
-        font-size: 1.5rem;
-        padding: 3vh;
-    }
-
-    .rule-points {
-        font-size: 1.2rem;
-        line-height: 5vh;
-    }
-}
-
-
-.error {
-    background-color: var(--error-bg);
-
-    opacity: 0.2;
-}
-
 @media (max-width: 768px) {
     .Board_body {
         flex-direction: column;
@@ -297,21 +305,20 @@
 
      .game {
         width: 100%;
-        height: 60%;
-        transform: scale(0.6);
+        transform: scale(0.5);
+        
     }
     .rules {
         width: 100%;
         height: auto;
-        min-height: 30%;
+        min-height: 25%;
         padding: 10px;
-        transform: scale(0.9);
-        transform: translateY(-10%);
+        transform: translateY(-60%);
     }
 
     .cell {
-        width: 12vw;
-        height: 12vw;
+        width: 11vw;
+        height: 11vw;
         font-size: 18px;
     }
 
@@ -333,7 +340,7 @@
 
 @media (max-width: 600px) {
     .game-container {
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -65%);
     }
 
     .cell {
@@ -354,6 +361,7 @@
 
     .rules {
         height: auto;
+        transform: translateY(-50%);
         min-height: 40%;
         padding: 8px;
         font-size: 0.9rem;
@@ -380,13 +388,11 @@
     }
 
     .buttons {
-        flex-direction: column;
         align-items: center;
         gap: 3vw;
     }
 
     .buttons button {
-        width: 80%;
         height: 45px;
         font-size: 12px;
     }
@@ -394,25 +400,81 @@
     .rules {
         padding: 5px;
         font-size: 14px;
+        transform: translateY(-60%);
+    }
+    .game {
+        padding: 5px;
+        font-size: 14px;
+        margin-top: -25%;
+    }
+}
+@media (max-width: 350px) {
+    .cell {
+        width: 18vw;
+        height: 18vw;
+        font-size: 14px;
+    }
+
+    .buttons {
+        align-items: center;
+        gap: 3vw;
+    }
+
+    .buttons button {
+        height: 45px;
+        font-size: 12px;
+    }
+
+    .rules {
+        padding: 5px;
+    }
+    .rule-points{
+        font-size: 3vw;
+    }
+    
+    .cell aside svg {
+        transform: scale(1.5);
+        margin-left: 2%;
+    }
+
+    .cell p svg {
+        margin-top: 420%;
     }
 }
 
 .success-message {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     top: 40vh;  
     width: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--success-bg);
-    color: var(--success-text);
-    padding: 50px 20px;
-    font-size: 2rem;
+    background-color: green;
+    color: white;
+    padding: 3vh 20px;
+    font-size: 3vw;
     font-weight: bold;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     z-index: 1000;
     animation: fadeIn 0.5s ease-in-out;
+}
+.success-message div{
+    display: flex;
+    gap:5vw;
+    margin: auto;
+}
+.success-message button{
+    margin-top: 20px;
+    padding: 1vh 1vw 1vh 1vw;
+    border: 1px solid white;
+    color: white;
+    border-radius: 10px;
+    font-size: 1.4vw;
+    background-color: transparent;
+
 }
 
 

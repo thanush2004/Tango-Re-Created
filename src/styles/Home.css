@@ -1,4 +1,4 @@
-/* Default Styles (for larger screens) */
+
 .Home-body {
     background: linear-gradient(180deg, #3a4c5f 0%, #192129 100%);
     height: 100vh;
@@ -103,17 +103,10 @@
         font-size: 18px;
         width: 40vw;
     }
-
-    .box1, .box2, .box3 {
-        height: 7vh;
-        width: 7vh;
-    }
 }
 
 @media screen and (max-width: 480px) {
-    .Home-container {
-        padding-top: 3%;
-    }
+
 
     .Home-container p {
         font-size: 30px;
@@ -132,19 +125,9 @@
         width: 50vw;
         padding: 1.5vh;
     }
+    .box1,.box2,.box3{
+        height: 50px;
+        width: 50px;
 
-    .boxes {
-        width: 90%;
-        max-width: 300px;
-    }
-
-    .boxes-flex {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .box1, .box2, .box3 {
-        height: 6vh;
-        width: 6vh;
     }
 }
